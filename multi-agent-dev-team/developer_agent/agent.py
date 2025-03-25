@@ -1,8 +1,9 @@
 import os
-import openai
+from openai import OpenAI
+
+client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
 from memory_manager import get_recent_snippets, add_snippet
 
-openai.api_key = os.getenv('OPENAI_API_KEY')
 
 def handle_task(instruction):
     recent_snippets = get_recent_snippets(2)
@@ -19,10 +20,8 @@ def handle_task(instruction):
         {'role': 'user', 'content': f"Recent code context:\n{context}\n\nTask: {instruction}"}
     ]
 
-    response = openai.ChatCompletion.create(
-        model=os.getenv('MODEL_NAME'),
-        messages=messages
-    )
+    response = client.chat.completions.create(model=os.getenv('MODEL_NAME'),
+    messages=messages)
 
     generated_code = response.choices[0].message.content
     add_snippet(generated_code)

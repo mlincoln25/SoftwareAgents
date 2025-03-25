@@ -1,9 +1,9 @@
 from dotenv import load_dotenv
 load_dotenv()
 import sys
-from reviewer_agent import review_code
-from developer_agent import handle_task
-from devops_agent import commit_and_push
+from reviewer_agent.agent import review_code
+from developer_agent.agent import handle_task
+from devops_agent.agent import commit_and_push
 from memory_manager import add_snippet
 
 def main():
