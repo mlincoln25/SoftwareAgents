@@ -12,18 +12,16 @@ def handle_task(instruction):
         {
             'role': 'system',
             'content': (
-                'You are a senior software developer. Given a task and recent code context, '
-                'produce code.'
+                'Write code as requested in the most reasonable language as requested by the user. You should only print out the final code and nothing else.'
+                'Do not include any comments or apostrophes.'
             )
         },
         {'role': 'user', 'content': f"Recent code context:\n{context}\n\nTask: {instruction}"}
     ]
 
     response = openai.ChatCompletion.create(
-        model='gpt-4-turbo',
-        messages=[
-            {"role": "user", "content": "Hello!"}
-        ]
+        model=os.getenv('MODEL_NAME'),
+        messages=messages
     )
 
     generated_code = response.choices[0].message.content

@@ -17,7 +17,7 @@ def review_code(code):
     ]
 
     response = client.chat.completions.create(
-        model='gpt-4-turbo',
+        model=os.getenv('MODEL_NAME'),
         messages=messages,
         temperature=0.2
     )
