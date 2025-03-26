@@ -1,25 +1,16 @@
 import os
 from openai import OpenAI
 
-client = OpenAI(api_key=os.getenv('OPENAI_API_KEY'))
+# review_agent/agent.py
 
-def review_code(code):
-    messages = [
-        {
-            'role': 'system',
-            'content': (
-                'You are a senior code reviewer. Examine the following code for correctness, '
-                'efficiency, and best practices. Provide necessary improvements. Your response '
-                'should contain only runnable code. Anything non-code should be in comments.'
-            )
-        },
-        {'role': 'user', 'content': code}
-    ]
+from agents import Agent
 
-    response = client.chat.completions.create(
-        model=os.getenv('MODEL_NAME'),
-        messages=messages,
-        temperature=0.2
-    )
+reviewer_agent = Agent(
+    name="Review Agent",
+    instructions=(
+        "You review code for quality, potential issues, and adherence to best practices. "
+        "Provide constructive feedback and suggest improvements where necessary."
+    ),
+    handoff_description="Handles code review tasks."
+)
 
-    return response.choices[0].message.content
